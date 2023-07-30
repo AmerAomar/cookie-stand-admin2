@@ -1,6 +1,6 @@
 // components/LoginForm.js
 import React, { useState } from "react";
-import { useAuth } from "../contexts/auth";
+import { useAuth } from "../../contexts/auth";
 
 export default function LoginForm() {
   const { login } = useAuth();
