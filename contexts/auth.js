@@ -3,7 +3,7 @@ import React from 'react';
 import { createContext, useContext } from 'react';
 import  Jwt  from 'jsonwebtoken';
 
-const baseUrl = "http://127.0.0.1:8000/";
+const baseUrl = "https://cookie-stand-aj99el9it-ameraomar.vercel.app/";
 const tokenUrl =baseUrl + "api/token/";
 
 const AuthContext = createContext();
