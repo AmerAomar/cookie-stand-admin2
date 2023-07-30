@@ -13,7 +13,7 @@ export default function Home() {
 
   const fetchCookieStands = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/v1/cookie/", {
+      const response = await fetch("https://cookie-stand-aj99el9it-ameraomar.vercel.app/api/v1/cookie/", {
         headers: {
           Authorization: `Bearer ${auth.tokens.access}`, // Include the access token in the headers
         },
@@ -36,7 +36,7 @@ export default function Home() {
 
   const addCookieStand = async (newCookieStand) => {
     try {
-      const response = await fetch("http://localhost:8000/api/v1/cookie/", {
+      const response = await fetch("https://cookie-stand-aj99el9it-ameraomar.vercel.app/api/v1/cookie/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export default function Home() {
 
   const handleDeleteCookieStand = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/v1/cookie/${id}`, {
+      const response = await fetch(`https://cookie-stand-aj99el9it-ameraomar.vercel.app/api/v1/cookie/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${auth.tokens.access}`, // Include the access token in the headers
