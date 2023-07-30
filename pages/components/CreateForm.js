@@ -1,3 +1,4 @@
+// pages/components/CreateForm.js
 import React, { useState, useRef } from "react";
 
 export default function CreateForm({ addCookieStand }) {
@@ -8,7 +9,7 @@ export default function CreateForm({ addCookieStand }) {
   const maximumRef = useRef();
   const averageRef = useRef();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const locationValue = locationRef.current.value;
@@ -16,7 +17,6 @@ export default function CreateForm({ addCookieStand }) {
     const maximumValue = maximumRef.current.value;
     const averageValue = averageRef.current.value;
 
-    // Check if any input fields are empty
     if (!locationValue || !minimumValue || !maximumValue || !averageValue) {
       setError("Please fill in all input fields.");
       return;
@@ -24,26 +24,36 @@ export default function CreateForm({ addCookieStand }) {
 
     const newCookieStand = {
       location: locationValue,
-      minimum: parseFloat(minimumValue),
-      maximum: parseFloat(maximumValue),
-      average: parseFloat(averageValue),
+      minimum_customers_per_hour: parseFloat(minimumValue),
+      maximum_customers_per_hour: parseFloat(maximumValue),
+      average_cookies_per_sale: parseFloat(averageValue),
     };
 
-    addCookieStand(newCookieStand);
-
-    event.target.reset();
-    setError("");
+    try {
+      await addCookieStand(newCookieStand); // Call the function from Home to add the new cookie
+      setError("");
+      // Reset form fields after successful creation
+      locationRef.current.value = "";
+      minimumRef.current.value = "";
+      maximumRef.current.value = "";
+      averageRef.current.value = "";
+    } catch (error) {
+      setError("Failed to create cookie stand.");
+    }
   };
 
   return (
     <form className="bg-green-300 p-6 rounded-lg shadow-md max-w-2xl w-full mx-auto" onSubmit={handleSubmit}>
-      <h2 className="text-2xl font-bold mb-4 text-center">Create Cookie Stand</h2>
-
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-
-      <div className="mb-4">
-        <label htmlFor="location " className="block text-gray-700 font-semibold"> Location </label>
-        <input ref={locationRef} name="location" id="location" className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+      <div>
+        <label htmlFor="location" className="block text-gray-700 font-semibold">
+          Location
+        </label>
+        <input
+          ref={locationRef}
+          name="location"
+          id="location"
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+        />
       </div>
 
       <div className="flex flex-col sm:flex-row mb-1 gap-4">
@@ -85,13 +95,16 @@ export default function CreateForm({ addCookieStand }) {
             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
           />
         </div>
-        <button
-          type="submit"
-          className="w-full sm:w-auto bg-green-500 text-black font-bold px-4 py-2 rounded-md hover:bg-green-600 transition-all"
-        >
-          Create Cookie
-        </button>
       </div>
+
+      <button
+        type="submit"
+        className="w-full sm:w-auto bg-green-500 text-black font-bold px-4 py-2 rounded-md hover:bg-green-600 transition-all"
+      >
+        Create Cookie
+      </button>
+
+      {error && <p className="text-red-500 mb-4">{error}</p>}
     </form>
   );
 }
